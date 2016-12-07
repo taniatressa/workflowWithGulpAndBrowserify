@@ -49,5 +49,13 @@ gulp.task('compass', function() {
     .on('error', gutil.log))
     .pipe(gulp.dest('build/development/css'))
 });
+/*watches and procees a series of task
+like something in coffe changed keep note of it*/
+gulp.task('watch', function() {
+  gulp.watch(coffeeSources, ['coffee']);
+  gulp.watch(jsSources, ['js']);
+  gulp.watch('components/sass/*.scss', ['compass']);
+});
+
 //this will do all the tasks on typing gulp 
 gulp.task('default', ['coffee', 'js', 'compass']);
