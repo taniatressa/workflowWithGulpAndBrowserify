@@ -17,6 +17,10 @@ var jsSources = [
 ];
 
 var sassSources = ['components/sass/style.scss'];
+//to keep trACK OF HTML changes
+var htmlSources = ['builds/development/*.html'];
+//to keep track of json changes
+var jsonSources = ['builds/development/js/*.json'];
 
 /*procees coffee script
 add src and pipe to coffe var
@@ -59,6 +63,8 @@ gulp.task('watch', function() {
   gulp.watch(coffeeSources, ['coffee']);
   gulp.watch(jsSources, ['js']);
   gulp.watch('components/sass/*.scss', ['compass']);
+   gulp.watch(htmlSources, ['html']);
+  gulp.watch(jsonSources, ['json']);
 });
 
 /*connect server..*/
@@ -68,6 +74,15 @@ gulp.task('connect', function() {
     livereload: true
   });
 });
-
+//keep track of html
+gulp.task('html', function() {
+  gulp.src(htmlSources)
+    .pipe(connect.reload())
+});
+//track of json changes
+gulp.task('json', function() {
+  gulp.src(jsonSources)
+    .pipe(connect.reload())
+});
 //this will do all the tasks on typing gulp 
-gulp.task('default', ['coffee', 'js', 'compass', 'connect', 'watch']);
+gulp.task('default', [ 'html', 'json' ,'coffee', 'js', 'compass', 'connect', 'watch']);
