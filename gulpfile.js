@@ -58,4 +58,4 @@ gulp.task('watch', function() {
 });
 
 //this will do all the tasks on typing gulp 
-gulp.task('default', ['coffee', 'js', 'compass']);
+gulp.task('default', ['coffee', 'js', 'compass', 'watch']);
