@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     uglify = require('gulp-uglify'),
     minifyHTML = require('gulp-minify-html'),
+    jsonminify = require('gulp-jsonminify'),
     concat = require('gulp-concat');
 
 var env,
@@ -104,7 +105,9 @@ gulp.task('html', function() {
 });
 //track of json changes
 gulp.task('json', function() {
-  gulp.src(jsonSources)
+  gulp.src('builds/development/js/*.json')
+    .pipe(gulpif(env === 'production', jsonminify()))
+    .pipe(gulpif(env === 'production', gulp.dest('build/production/js')))
     .pipe(connect.reload())
 });
 //this will do all the tasks on typing gulp 
