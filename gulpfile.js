@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     coffee = require('gulp-coffee'),
     browserify = require('gulp-browserify'),
+    connect = require('gulp-connect'),
     compass = require('gulp-compass'),
     concat = require('gulp-concat');;
 
@@ -36,9 +37,11 @@ gulp.task('js', function() {
     .pipe(concat('script.js'))
     .pipe(browserify())
     .pipe(gulp.dest('build/development/js'))
+    .pipe(connect.reload())
 });
 // style : expanded means type of style either expanded compact etc
 //convert everything to style.css
+//connect reloads as soon as js is changed
 gulp.task('compass', function() {
   gulp.src(sassSources)
     .pipe(compass({
@@ -48,6 +51,7 @@ gulp.task('compass', function() {
     })
     .on('error', gutil.log))
     .pipe(gulp.dest('build/development/css'))
+     .pipe(connect.reload())
 });
 /*watches and procees a series of task
 like something in coffe changed keep note of it*/
@@ -57,5 +61,13 @@ gulp.task('watch', function() {
   gulp.watch('components/sass/*.scss', ['compass']);
 });
 
+/*connect server..*/
+gulp.task('connect', function() {
+  connect.server({
+    root: 'build/development/',
+    livereload: true
+  });
+});
+
 //this will do all the tasks on typing gulp 
-gulp.task('default', ['coffee', 'js', 'compass', 'watch']);
+gulp.task('default', ['coffee', 'js', 'compass', 'connect', 'watch']);
