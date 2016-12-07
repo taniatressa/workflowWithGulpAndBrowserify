@@ -49,3 +49,5 @@ gulp.task('compass', function() {
     .on('error', gutil.log))
     .pipe(gulp.dest('build/development/css'))
 });
+//this will do all the tasks on typing gulp 
+gulp.task('default', ['coffee', 'js', 'compass']);
