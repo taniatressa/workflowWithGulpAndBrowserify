@@ -7,20 +7,37 @@ var gulp = require('gulp'),
     compass = require('gulp-compass'),
     concat = require('gulp-concat');;
 
-var coffeeSources = ['components/coffee/tagline.coffee'];
+var env,
+    coffeeSources,
+    jsSources,
+    sassSources,
+    htmlSources,
+    jsonSources,
+    outputDir,
+    sassStyle;
 
-var jsSources = [
+//if env value is not set then we will set  env as development enviroment
+env = process.env.NODE_ENV || 'development';
+
+if (env==='development') {
+  outputDir = 'build/development/';
+  sassStyle = 'expanded';
+} else {
+  outputDir = 'build/production/';
+  sassStyle = 'compressed';
+}
+
+
+coffeeSources = ['components/coffee/tagline.coffee'];
+jsSources = [
   'components/scripts/rclick.js',
   'components/scripts/pixgrid.js',
   'components/scripts/tagline.js',
   'components/scripts/template.js'
 ];
-
-var sassSources = ['components/sass/style.scss'];
-//to keep trACK OF HTML changes
-var htmlSources = ['builds/development/*.html'];
-//to keep track of json changes
-var jsonSources = ['builds/development/js/*.json'];
+sassSources = ['components/sass/style.scss'];
+htmlSources = [outputDir + '*.html'];
+jsonSources = [outputDir + 'js/*.json'];
 
 /*procees coffee script
 add src and pipe to coffe var
